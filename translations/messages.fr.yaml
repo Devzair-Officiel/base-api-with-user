@@ -9,6 +9,7 @@ entity:
   delete: "%entity% supprimé avec succès."
   retrieved: "%entity% récupéré avec succès."
   list_retrieved: "%entity% récupérés avec succès."
+  deletion_prohibited: "Impossible de supprimer la ressource %entity% car des %related_entity% y sont encore rattachés."
 
 # Messages liés aux utilisateurs
 user:
@@ -31,6 +32,7 @@ validation:
   json_invalid: "Format JSON invalide."
   failed: "La validation a échoué pour le champ '%field%'."
   invalid_key: "La clé '%key%' n'est pas valide"
+  not_blank: "Ce champ ne doit pas être vide."
 
 # Messages liés à la pagination
 pagination:
@@ -38,8 +40,12 @@ pagination:
   invalid_limit: "La limite spécifiée (%value%) est invalide."
   limit_exceeded: "La limite d'éléments par page ne peut pas dépasser %limit%."
 
-# Messages d'erreur génériques
 error:
+  ### Messages d'erreur génériques ###
   invalid_request: "Requête invalide."
   server_error: "Une erreur inattendue s'est produite."
   Validation_failed: "Échec de la validation."
+  no_file: "Pas de fichier sélectionné"
+        ######################
+  invalid:
+    session_check_type: "Le type de vérification de session est invalide. Utilisez ?type=active ou ?type=online."

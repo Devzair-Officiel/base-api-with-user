@@ -1,7 +1,6 @@
 entity_name:
   user: "User"
 
-
 # Messages Générique
 entity:
   not_found: "%entity% not found."
@@ -10,6 +9,7 @@ entity:
   delete: "%entity% deleted successfully."
   retrieved: "%entity% retrieved successfully."
   list_retrieved: "%entity% retrieved successfully."
+  deletion_prohibited: "Impossible to remove the %entity% resource because %related_entity% are still attached to it."
 
 # Messages liés aux utilisateurs
 user:
@@ -33,6 +33,7 @@ validation:
   json_invalid: "Invalid JSON format."
   failed: "Validation failed for the field '%field%'."
   invalid_key: "The key '%key%' is not valid"
+  not_blank: "This field must not be empty."
 
 # Messages liés à la pagination
 pagination:
@@ -45,3 +46,6 @@ error:
   invalid_request: "Invalid request."
   server_error: "An unexpected error occurred."
   Validation_failed: "Validation failed."
+  no_file: "Not file select"
+  invalid:
+    session_check_type: "The session verification type is invalid. Use ?type=active ou ?type=online."
