@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Lov;
 
-use App\Entity\Lov\CountryLov;
 use App\Controller\Lov\AbstractLovController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Country;
 
 #[Route('/countries', name: 'country_')]
 class CountryController extends AbstractLovController
 {
     protected function getEntityClass(): string
     {
-        return CountryLov::class;
+        return Country::class;
     }
     
     protected function getSerializationGroup(): string
@@ -23,13 +23,14 @@ class CountryController extends AbstractLovController
 
     protected function getEntityName(): string
     {
-        return 'countryLov';
+        return 'country';
     }
 
-    protected function extractFilters(array $queryParams): array
+    /**
+     * Extrait et valide les filtres pour les laboratory.
+     */
+    protected function getAllowedFilterKeys(): array
     {
-        return [
-            'title' => $queryParams['title'] ?? null,
-        ];
+        return ['title', 'sortBy', 'sortOrder', 'valid'];
     }
 }

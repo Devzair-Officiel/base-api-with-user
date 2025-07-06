@@ -22,9 +22,9 @@ class UserService extends AbstractService
 {
     public function __construct(
         protected EntityManagerInterface $em,
+        protected JsonValidationUtils $jsonValidationUtils,
         private UserPasswordHasherInterface $passwordHasher,
         private UserRepository $userRepository,
-        protected JsonValidationUtils $jsonValidationUtils,
         private JWTTokenManagerInterface $jwtManager,
         private RefreshTokenManagerInterface $refreshTokenManager,
     ) {}

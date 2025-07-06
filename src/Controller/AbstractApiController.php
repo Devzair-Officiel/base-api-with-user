@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Classe abstraite servant de base pour les contrôleurs API.
@@ -49,7 +50,7 @@ abstract class AbstractApiController extends AbstractController
 
         $page = (int) ($queryParams['page'] ?? 1);
         $limit = (int) ($queryParams['limit'] ?? 10);
-        $filters = $this->extractFilters($queryParams);
+        $filters = $this->extractAndValidate($queryParams, $this->getAllowedFilterKeys());
 
         $result = $serviceMethod($page, $limit, $filters);
 
@@ -76,15 +77,37 @@ abstract class AbstractApiController extends AbstractController
     }
 
     /**
-     * Extrait les filtres pertinents de la requête.
-     *
-     * @param array $queryParams Paramètres de requête HTTP.
-     *
-     * @return array Tableau des filtres extraits.
+     * Retourne la liste des filtres autorisés pour la ressource.
      */
-    protected function extractFilters(array $queryParams): array
+    abstract protected function getAllowedFilterKeys(): array;
+
+    /**
+     * Extrait et valide les filtres d'une requête HTTP.
+     *
+     * @param array $queryParams Les paramètres de requête (généralement $request->query->all()).
+     * @param array $allowedKeys La liste blanche des clés autorisées.
+     *
+     * @return array Filtres nettoyés (sans null/vides et avec uniquement les clés autorisées).
+     *
+     * @throws BadRequestHttpException Si un paramètre non autorisé est détecté.
+     */
+    protected function extractAndValidate(array $queryParams, array $allowedKeys): array
     {
-        return []; // Implémenté par les classes enfants pour chaque entité
+        // Cherche les clés interdites
+        $unexpectedKeys = array_diff(array_keys($queryParams), $allowedKeys);
+
+        if (!empty($unexpectedKeys)) {
+            throw new BadRequestHttpException(sprintf(
+                'Les paramètres suivants ne sont pas autorisés : %s',
+                implode(', ', $unexpectedKeys)
+            ));
+        }
+
+        // Nettoie les filtres : supprime les champs vides ou nuls
+        return array_filter(
+            $queryParams,
+            fn($v) => $v !== null && !(is_string($v) && trim($v) === '')
+        );
     }
 
     /**

@@ -160,6 +160,12 @@ class UserController extends AbstractApiController
         ];
     }
 
+    protected function getAllowedFilterKeys(): array
+    {
+        return ['title', 'sortBy', 'sortOrder', 'valid'];
+    }
+
+
     protected function getSerializationGroup(): string
     {
         return 'user_list';
