@@ -10,7 +10,7 @@ trait IsValidTrait
      */
     #[\Doctrine\ORM\Mapping\Column(type: 'boolean', options: ['default' => true])]
     #[Groups(['user_list'])]
-    private bool $isValid = true;
+    private bool $valid = true;
 
     /**
      * Récupère l'état de validité de l'entité.
@@ -19,18 +19,18 @@ trait IsValidTrait
      */
     public function isValid(): bool
     {
-        return $this->isValid;
+        return $this->valid;
     }
 
     /**
      * Définit l'état de validité de l'entité.
      *
-     * @param bool $isValid
+     * @param bool $valid
      * @return self
      */
-    public function setIsValid(bool $isValid): self
+    public function setValid(bool $valid): self
     {
-        $this->isValid = $isValid;
+        $this->valid = $valid;
 
         return $this;
     }

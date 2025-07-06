@@ -107,7 +107,7 @@ class UserService extends AbstractService
         $user->setEmail($userDTO->email);
         $user->setFirstname($userDTO->firstname);
         $user->setLastname($userDTO->lastname);
-        $user->setIsValid(true);
+        $user->setValid(true);
 
         // Hashage du mot de passe
         $hashedPassword = $this->passwordHasher->hashPassword($user, $userDTO->password);

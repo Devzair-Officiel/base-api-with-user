@@ -7,11 +7,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Annotation\Context;
 
-/**
- * DateTrait
- * 
- * 
- */
+#[ORM\HasLifecycleCallbacks]
 trait DateTrait
 {
 
@@ -29,6 +25,29 @@ trait DateTrait
     #[Context([DateTimeNormalizer::FORMAT_KEY => 'd/m/Y'])]
     #[Groups(['date'])]
     private ?\DateTimeImmutable $closed_at = null;
+
+    /**
+     * Déclenché juste avant qu’une entité soit insérée en BDD
+     * @return void
+     */
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * Déclenché avant une mise à jour
+     * @return void
+     */
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -66,5 +85,4 @@ trait DateTrait
 
         return $this;
     }
-
 }
