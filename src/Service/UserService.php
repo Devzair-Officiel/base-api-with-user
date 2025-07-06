@@ -24,7 +24,7 @@ class UserService extends AbstractService
         protected EntityManagerInterface $em,
         private UserPasswordHasherInterface $passwordHasher,
         private UserRepository $userRepository,
-        private JsonValidationUtils $jsonValidationUtils,
+        protected JsonValidationUtils $jsonValidationUtils,
         private JWTTokenManagerInterface $jwtManager,
         private RefreshTokenManagerInterface $refreshTokenManager,
     ) {}
